@@ -2,7 +2,7 @@
 
 
 
-<nav id="sidebar" aria-label="Main Navigation">
+<nav id="sidebar" aria-label="Main Navigation" style="background-color:#2d174c;">
     <!-- Side Header -->
     <div class="content-header" style="background-color: #ffffff61;padding-left: 12px;">
         <!-- Logo -->
@@ -23,8 +23,14 @@
         <ul class="nav-main">
             <li class="nav-main-item">
                 <a class="nav-main-link @if (Request::is('home')) active @endif" href="{{route('home')}}">
-                    <i class="nav-main-link-icon si si-speedometer"></i>
+                    <i class="nav-main-link-icon fa fa-home"></i>
                     <span class="nav-main-link-name">Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-main-item">
+                <a class="nav-main-link @if (Request::is('voucher')) active @endif" href="#">
+                    <i class="nav-main-link-icon fa fa-ticket-alt"></i>
+                    <span class="nav-main-link-name">Voucher</span>
                 </a>
             </li>
         

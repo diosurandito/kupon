@@ -38,6 +38,12 @@
         "classmap": [
             "database/seeds",
             "database/factories"
+        ],
+        "files": [
+            "app/Helpers/FormatUang.php",
+            "app/Helpers/FormatRibuan.php"
+
+            
         ]
     },
     "autoload-dev": {

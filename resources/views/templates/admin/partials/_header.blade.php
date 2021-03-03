@@ -1,5 +1,5 @@
 <!-- Header -->
-<header id="page-header" style="background-color: #7750b1;">
+<header id="page-header" style="background-color: #2d174c;">
     <!-- Header Content -->
     <div class="content-header">
         <!-- Left Section -->
