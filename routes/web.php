@@ -22,4 +22,5 @@ Route::get('login', 'Admin\AuthAdminController@showLoginForm')->name('showlogin'
 Route::post('login','Admin\AuthAdminController@login')->name('login');
 Route::post('logout','Admin\AuthAdminController@logout')->name('logout');
 Route::get('home', 'Admin\HomeController@index')->name('home');
+Route::get('voucher', 'Admin\VoucherController@index')->name('voucher.index');
 });

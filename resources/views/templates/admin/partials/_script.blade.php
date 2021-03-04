@@ -122,7 +122,89 @@
 }
 </script>
 
-<!-- CPF1 -->
+<!-- Menu Voucher -->
+<script type="text/javascript">
+    $(function () {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        function convertDate(dateString){
+            var p = dateString.split(/\D/g)
+            return [p[2],p[1],p[0] ].join("-")
+        }
+
+        // view data
+        load_data();
+
+        function load_data(from_date = '', to_date = '')
+        {
+            var table = $('#tb_voucher').DataTable({
+                scrollY:        "70vh",
+                scrollX:        true,
+                scrollCollapse: true,
+                pageLength: 50,
+                processing: true,
+                serverSide: true,
+                language: {
+                    processing: '<div class="wobblebar-loader"></div>',
+                    sEmptyTable:   "Tidak ada data yang tersedia pada tabel ini",
+                    sLengthMenu:   "Tampilkan _MENU_ entri",
+                    sZeroRecords:  "Tidak ditemukan data yang sesuai",
+                    sInfo:         "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+                    sInfoEmpty:    "Menampilkan 0 sampai 0 dari 0 entri",
+                    sInfoFiltered: "(disaring dari _MAX_ entri keseluruhan)",
+                    sInfoPostFix:  "",
+                    sSearch:       "Cari:",
+                    sUrl:          "",
+                    oPaginate: {
+                        sFirst:    "Pertama",
+                        sPrevious: "Sebelumnya",
+                        sNext:     "Selanjutnya",
+                        sLast:     "Terakhir"
+                    },
+                    
+                },
+                ajax: {
+                    url: "{{ route('voucher.index') }}",
+                    data:{from_date:from_date, to_date:to_date}
+                },
+                columns: [
+                {data: 'DT_RowIndex', name: 'DT_RowIndex', sClass: 'text-center'},
+                {data: 'kode_voucher', name: 'kode_voucher', sClass: 'text-center'},
+                {data: 'nilai_fh', name: 'nilai_fh', sClass: 'text-center'},
+                {data: 'status', name: 'status', sClass: 'text-center'},
+                {data: 'aksi', name: 'aksi', sClass: 'text-center', orderable: false, searchable: false},
+                ]
+
+            });
+        }
+
+        //Filter & Refresh
+        $('#filter').click(function(){
+            var from_date = convertDate($('#from_date').val());
+            var to_date = convertDate($('#to_date').val());
+            if($('#from_date').val() != '' &&  $('#to_date').val() != '')
+            {
+                $('#tb_voucher').DataTable().destroy();
+                load_data(from_date, to_date);
+            }
+            else{
+                alert('Harap isi terlebih dahulu keduanya yah~');
+            }
+        });
+
+        $('#refresh').click(function(){
+            $('#from_date').val('');
+            $('#to_date').val('');
+            $('#tb_voucher').DataTable().destroy();
+            load_data();
+        });
+        
+    });
+</script>
 
 
 <script type="text/javascript">

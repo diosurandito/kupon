@@ -120,7 +120,7 @@
             white-space:nowrap;
         }
     </style>
-    @if(Request::is('customer-cpf1') || Request::is('customer-llumar') || Request::is('customer-new') || Request::is('customer-ultah/*') || Request::is('follup-customer/*'))
+    @if(Request::is('voucher') || Request::is('customer-llumar') || Request::is('customer-new') || Request::is('customer-ultah/*') || Request::is('follup-customer/*'))
         <style type="text/css">
         div.dataTables_scrollHeadInner {
             width: 100%!important;
