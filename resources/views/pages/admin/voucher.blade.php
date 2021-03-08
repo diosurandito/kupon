@@ -95,5 +95,138 @@
 			</div>
 		</div>
 	</div>
+	<!-- tambah data -->
+	<div class="modal fade" id="add_voucher_modal" tabindex="-1" role="dialog" aria-labelledby="modal-block-popin" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="block block-themed block-transparent mb-0">
+					<div class="block-header" style="background: #7750b1;">
+						<h3 class="block-title">Tambah Data Voucher</h3>
+						<div class="block-options">
+							<button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+								<i class="fa fa-fw fa-times"></i>
+							</button>
+						</div>
+					</div>
+					<div class="block-content font-size-sm">
+						<div class="row">
+							<div class="col-lg-8 col-xl-12">
+								<form method="post" id="add_voucher_form">
+									@csrf
+									<div class="row">
+										<div class="form-group col-6">
+											<label for="">Kode Voucher</label><br>
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text text-white" style="background-color: #7750b1;"><i class="fa fa-barcode"></i>
+													</span>
+												</div>
+												<input type="text" class="js-maxlength form-control" id="kode_voucher" name="kode_voucher" maxlength="15" placeholder="Masukkan kode voucher" data-always-show="true" data-warning-class="badge badge-primary" data-limit-reached-class="badge badge-primary" required>
+											</div>
+										</div>
+										<div class="form-group col-6">
+											<label for="">Nilai Voucher</label><br>
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text text-white" style="background-color: #7750b1;"><i class="fa fa-money-check-alt"></i>
+													</span>
+												</div>
+												<input type="text" class="js-maxlength form-control" maxlength="17" id="rupiah" name="nilai" placeholder="Masukkan nilai voucher" data-always-show="true" data-warning-class="badge badge-primary" data-limit-reached-class="badge badge-primary" required>   
+											</div>
+										</div>
+									</div>
+									<div class="block-content block-content-full text-right border-top">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+										<button type="submit" class="btn" style="background-color: #ff8e0d;border-color:#000000;" id="add_voucher_savebtn">Simpan</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- delete -->
+	<div class="modal fade" id="confirm_delete_modal_voucher" tabindex="-1" role="dialog" aria-labelledby="modal-block-popin modal-block-vcenter" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-popin modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="block block-themed block-transparent mb-0">
+					<div class="block-header" style="background-color: #b12f1d;">
+						<h3 class="block-title">Hapus Data Voucher</h3>
+						<div class="block-options">
+							<button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+								<i class="fa fa-fw fa-times"></i>
+							</button>
+						</div>
+					</div>
+					<div class="block-content font-size-sm">
+						<p id="delete_message_voucher" style="font-size: 20px;"></p>
+					</div>
+					<div class="block-content block-content-full text-right border-top">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+						<button type="button" class="btn btn-danger text-white" name="confirm_delete_voucher_btn" id="confirm_delete_voucher_btn">Hapus</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- edit -->
+	<div class="modal fade" id="edit_modal_voucher" tabindex="-1" role="dialog" aria-labelledby="modal-block-popin" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="block block-themed block-transparent mb-0">
+					<div class="block-header" style="background: #ff711c;">
+						<h3 class="block-title">Ubah Data Voucher</h3>
+						<div class="block-options">
+							<button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+								<i class="fa fa-fw fa-times"></i>
+							</button>
+						</div>
+					</div>
+					<div class="block-content font-size-sm">
+						<div class="row">
+							<div class="col-lg-8 col-xl-12">
+								<form method="post" id="edit_voucher_form">
+									@csrf
+									<div class="row">
+										<div class="form-group col-6">
+											<label for="">Kode Voucher</label><br>
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text text-white" style="background-color: #7750b1;"><i class="fa fa-barcode"></i>
+													</span>
+												</div>
+												<input type="text" class="js-maxlength form-control" id="kode_voucher_edit" name="kode_voucher_edit" maxlength="15" placeholder="Masukkan kode voucher" data-always-show="true" data-warning-class="badge badge-primary" data-limit-reached-class="badge badge-primary" required>
+											</div>
+										</div>
+										<div class="form-group col-6">
+											<label for="">Nilai Voucher</label><br>
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text text-white" style="background-color: #7750b1;"><i class="fa fa-money-check-alt"></i>
+													</span>
+												</div>
+												<input type="text" class="js-maxlength form-control" maxlength="17" id="nilai_edit" name="nilai_edit" placeholder="Masukkan nilai voucher" data-always-show="true" data-warning-class="badge badge-primary" data-limit-reached-class="badge badge-primary" required>   
+											</div>
+										</div>
+									</div>
+									
+									<div class="block-content block-content-full text-right border-top">
+										<input type="hidden" name="hidden_id_voucher" id="hidden_id_voucher">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+										<button type="submit" class="btn btn-warning text-dark" id="edit_voucher_savebtn">Simpan</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
 </main>
 @endsection

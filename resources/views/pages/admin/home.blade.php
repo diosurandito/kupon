@@ -94,11 +94,9 @@
                         <div class="input-group">
                             <select class="js-select2 form-control" id="kode_voucher" name="kode_voucher" style="width: 100%;height: 2.375rem;line-height: 2.375rem;background-color: #7750b1;font-size: 1.1rem;" data-placeholder="Pilih kode voucher" multiple required>
                                 <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                <option value="1">JKI/V/LMR-00001 ({{format_ribuan(200000)}})</option>
-                                <option value="2">JKI/V/LMR-00002 (100K)</option>
-                                <option value="3">JKI/V/LMR-00003 (100K)</option>
-                                <option value="4">JKI/V/LMR-00004 (250K)</option>
-                                <option value="5">JKI/V/LMR-00005 (200K)</option>
+                                @foreach ($vouchers as $v)
+                                <option value="{{$v->kode_voucher}}">{{$v->kode_voucher}} ({{format_ribuan($v->nilai)}})</option>
+                                @endforeach 
                             </select>
                         </div>
                     </div>

@@ -82,12 +82,18 @@
 <!-- <script src="{{ asset('assets/js/plugins/jquery-validation/localization/message_id.js') }}"></script> -->
 <script src="{{ asset('assets/js/plugins/jquery-validation/localization/messages_id.js') }}"></script>
 
-@if(Request::is('home') || Request::is('transaction/add*'))
+@if(Request::is('home') || Request::is('voucher*'))
     <script type="text/javascript">
         var rupiah = document.getElementById("rupiah");
         rupiah.addEventListener("keyup", function(e) {
 
             rupiah.value = formatRupiah(this.value, "Rp. ");
+        });
+        
+        var rupiah2 = document.getElementById("nilai_edit");
+        rupiah2.addEventListener("keyup", function(e) {
+
+            rupiah2.value = formatRupiah(this.value, "Rp. ");
         });
 
         
@@ -202,6 +208,145 @@
             $('#tb_voucher').DataTable().destroy();
             load_data();
         });
+
+        // add data
+        $('#add_voucher_btn').click(function () {
+            $('#add_voucher_savebtn').html("Simpan");
+        });
+
+        $('#add_voucher_form').on('submit', function(e) {
+            var from_date = convertDate($('#from_date').val());
+            var to_date = convertDate($('#to_date').val());
+            e.preventDefault();
+            $('#add_voucher_savebtn').html('Mengirim..');
+            $.ajax({
+                data: $('#add_voucher_form').serialize(),
+                url: "{{ route('voucher.store') }}",
+                type: "POST",
+                dataType: 'json',
+                success: function (data) {
+                    $('#add_voucher_form').trigger("reset");
+                    $('#add_voucher_modal').modal('hide');
+                    $('#alert').html('<div class="alert alert-success alert-dismissable d-flex" role="alert"><div class="flex-00-auto"><i class="fa fa-fw fa-check"></i></div><div class="flex-fill ml-3"><p class="mb-0">' + data.success + '</p></div><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                    $('#tb_voucher').DataTable().destroy();
+                    if($('#from_date').val() != '' &&  $('#to_date').val() != '')
+                    {
+                        $('#tb_voucher').DataTable().destroy();
+                        load_data(from_date, to_date);
+                    }else
+                    {
+                        $('#tb_voucher').DataTable().destroy();
+                        load_data();
+                    }
+                    setTimeout(function() {
+                        $(".alert").alert('close');
+                    }, 6000);
+                },
+                error: function (data) {
+                    console.log('Error:', data);
+                    $('#add_voucher_savebtn').html('Save Changes');
+                },
+
+            });
+        });
+
+        //delete data
+        var voucher_id;
+
+        $(document).on('click', '.delete_voucher', function(){
+            voucher_id = $(this).attr('id');
+            voucher_kode = $(this).attr('kode_voucher');
+            $('#delete_message_voucher').html('Anda akan menghapus data voucher dengan kode <b>'+ voucher_kode +'</b> ?');
+            $('#confirm_delete_voucher_btn').html("Hapus");
+
+        });
+
+        $('#confirm_delete_voucher_btn').click(function(){
+            var from_date = convertDate($('#from_date').val());
+            var to_date = convertDate($('#to_date').val());
+            $.ajax({
+                url:"voucher/destroy/"+voucher_id,
+                beforeSend:function(){
+                    $('#confirm_delete_voucher_btn').text('Menghapus..');
+                },
+                success:function(data)
+                {
+                    setTimeout(function(){
+                    $('#confirm_delete_modal_voucher').modal('hide');
+                    }, 250);
+                    $('#tb_voucher').DataTable().destroy();
+                    if($('#from_date').val() != '' &&  $('#to_date').val() != '')
+                    {
+                        $('#tb_voucher').DataTable().destroy();
+                        load_data(from_date, to_date);
+                    }else
+                    {
+                        $('#tb_voucher').DataTable().destroy();
+                        load_data();
+                    }
+                    $('#alert').html('<div class="alert alert-success alert-dismissable d-flex" role="alert"><div class="flex-00-auto"><i class="fa fa-fw fa-check"></i></div><div class="flex-fill ml-3"><p class="mb-0">' + data.success + '</p></div><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                    setTimeout(function() {
+                        $(".alert").alert('close');
+                    }, 6000);
+                }
+            });
+        });
+
+        //edit data
+        $(document).on('click', '.edit_voucher', function(){
+            var id_voucher = $(this).attr('id');
+            $.ajax({
+                url :"voucher/edit/"+ id_voucher,
+                dataType:"json",
+                success:function(data)
+                {
+                    $('#kode_voucher_edit').val(data.result.kode_voucher);
+                    $('#nilai_edit').val(data.result.nilai);
+                    $('#hidden_id_voucher').val(id_voucher);
+
+                }
+            })
+            $('#edit_voucher_savebtn').html("Simpan");
+        });
+
+        //update
+        $('#edit_voucher_form').on('submit', function(e) {
+            var from_date = convertDate($('#from_date').val());
+            var to_date = convertDate($('#to_date').val());
+            e.preventDefault();
+            $('#edit_voucher_savebtn').html('Mengirim..');
+            $.ajax({
+                data: $('#edit_voucher_form').serialize(),
+                url: "{{ route('voucher.update') }}",
+                type: "PATCH",
+                dataType: 'json',
+                success: function (data) {
+                    $('#edit_voucher_form').trigger("reset");
+                    $('#edit_modal_voucher').modal('hide');
+                    $('#alert').html('<div class="alert alert-success alert-dismissable d-flex" role="alert"><div class="flex-00-auto"><i class="fa fa-fw fa-check"></i></div><div class="flex-fill ml-3"><p class="mb-0">' + data.success_edit + '</p></div><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                    $('#tb_voucher').DataTable().destroy();
+                    if($('#from_date').val() != '' &&  $('#to_date').val() != '')
+                    {
+                        $('#tb_voucher').DataTable().destroy();
+                        load_data(from_date, to_date);
+                    }else
+                    {
+                        $('#tb_voucher').DataTable().destroy();
+                        load_data();
+                    }
+                    setTimeout(function() {
+                        $(".alert").alert('close');
+                    }, 5000);
+                },
+                error: function (data) {
+                console.log('Error:', data);
+                $('#edit_voucher_savebtn').html('Save Changes');
+                },
+
+            });
+        });
+
+        //
         
     });
 </script>
