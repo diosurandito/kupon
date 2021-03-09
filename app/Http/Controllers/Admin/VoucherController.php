@@ -50,7 +50,7 @@ class VoucherController extends Controller
             })
 			->addColumn('aksi', function($data){
 				$button = '<div class="btn-group">
-				<button type="button" class="edit_voucher btn btn-sm btn-warning" data-toggle="modal" data-target="#edit_modal_voucher" name="edit_data_voucher" id="'.$data->id.'" kode_voucher="'.$data->kode_voucher.'" nilai="'.$data->nilai.'" created_at="'.$data->created_at_fh.'" title="Edit Data">
+				<button type="button" class="edit_voucher btn btn-sm btn-warning" data-toggle="modal" data-target="#edit_modal_voucher" name="edit_data_voucher" id="'.$data->id.'" kode_voucher="'.$data->kode_voucher.'" nilai_fh="'.$data->nilai_fh.'" created_at="'.$data->created_at_fh.'" title="Edit Data">
 				<i class="fa fa-pen"></i>
 				</button>
 				<button type="button" class="delete_voucher btn btn-sm btn-danger" data-toggle="modal" data-target="#confirm_delete_modal_voucher" name="delete_data_voucher" id="'.$data->id.'" kode_voucher="'.$data->kode_voucher.'" title="Hapus Data">

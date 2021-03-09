@@ -50,7 +50,7 @@
                     </div>
 
                     <div class="row">
-                    <div class="form-group col-7">
+                    <div class="form-group col-6">
                         <label for="">No. Telp Customer<span class="text-danger">*</span></label><br>
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -61,7 +61,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-5">
+                    <div class="form-group col-6">
                         <label for="">Total Transaksi<span class="text-danger">*</span></label><br>
                         <div class="input-group">
                             <div class="input-group-prepend">

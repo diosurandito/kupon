@@ -89,12 +89,13 @@
 
             rupiah.value = formatRupiah(this.value, "Rp. ");
         });
-        
+        @if(Request::is('voucher*'))
         var rupiah2 = document.getElementById("nilai_edit");
         rupiah2.addEventListener("keyup", function(e) {
 
             rupiah2.value = formatRupiah(this.value, "Rp. ");
         });
+        @endif
 
         
         function formatRupiah(angka, prefix) {
@@ -119,13 +120,16 @@
 
 
 <script>
-    function formatDate (input) {
+    function formatDate (input) 
+    {
         var datePart = input.match(/\d+/g),
         year = datePart[0], // get only two digits
         month = datePart[1], 
         day = datePart[2];
         return day+'-'+month+'-'+year;
-}
+    }
+    
+
 </script>
 
 <!-- Menu Voucher -->
@@ -295,13 +299,14 @@
         //edit data
         $(document).on('click', '.edit_voucher', function(){
             var id_voucher = $(this).attr('id');
+            var nilai_fh = $(this).attr('nilai_fh');
             $.ajax({
                 url :"voucher/edit/"+ id_voucher,
                 dataType:"json",
                 success:function(data)
                 {
                     $('#kode_voucher_edit').val(data.result.kode_voucher);
-                    $('#nilai_edit').val(data.result.nilai);
+                    $('#nilai_edit').val(nilai_fh);
                     $('#hidden_id_voucher').val(id_voucher);
 
                 }

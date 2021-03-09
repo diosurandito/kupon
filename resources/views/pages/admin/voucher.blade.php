@@ -152,7 +152,7 @@
 		<div class="modal-dialog modal-dialog-popin modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="block block-themed block-transparent mb-0">
-					<div class="block-header" style="background-color: #b12f1d;">
+					<div class="block-header" style="background-color: #7750b1;">
 						<h3 class="block-title">Hapus Data Voucher</h3>
 						<div class="block-options">
 							<button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
@@ -164,7 +164,7 @@
 						<p id="delete_message_voucher" style="font-size: 20px;"></p>
 					</div>
 					<div class="block-content block-content-full text-right border-top">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+						<button type="button" class="btn" style="background-color: #ff8e0d;border-color:#000000;" data-dismiss="modal">Batal</button>
 						<button type="button" class="btn btn-danger text-white" name="confirm_delete_voucher_btn" id="confirm_delete_voucher_btn">Hapus</button>
 					</div>
 				</div>
@@ -177,7 +177,7 @@
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
 				<div class="block block-themed block-transparent mb-0">
-					<div class="block-header" style="background: #ff711c;">
+					<div class="block-header" style="background-color: #7750b1;">
 						<h3 class="block-title">Ubah Data Voucher</h3>
 						<div class="block-options">
 							<button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
@@ -216,7 +216,7 @@
 									<div class="block-content block-content-full text-right border-top">
 										<input type="hidden" name="hidden_id_voucher" id="hidden_id_voucher">
 										<button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-										<button type="submit" class="btn btn-warning text-dark" id="edit_voucher_savebtn">Simpan</button>
+										<button type="submit" class="btn" style="background-color: #ff8e0d;border-color:#000000;" id="edit_voucher_savebtn">Simpan</button>
 									</div>
 								</form>
 							</div>
