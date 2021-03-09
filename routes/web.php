@@ -29,5 +29,7 @@ Route::post('voucher/store','Admin\VoucherController@store')->name('voucher.stor
 Route::get('voucher/destroy/{id}','Admin\VoucherController@destroy')->name('voucher.destroy');
 Route::get('voucher/edit/{id}', 'Admin\VoucherController@edit')->name('voucher.edit');
 Route::patch('voucher/update', 'Admin\VoucherController@update')->name('voucher.update');
+Route::post('voucher/import','Admin\VoucherController@import_excel')->name('voucher.import');
+
 
 });

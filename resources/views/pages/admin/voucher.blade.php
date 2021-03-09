@@ -70,13 +70,14 @@
 									
 								</div>
 								<div class="col-lg-3"></div>
-
 							</div>
 						</form>
 					</div>
 					
 					<div class="col-4" style="text-align: right;padding-right: 0px">
-					
+						<button class="btn btn-success mb-0" name="import_voucher_btn" id="import_voucher_btn" data-toggle="modal" data-target="#import_modal_voucher">
+							<i class="fa fa-file-excel"></i> Import
+						</button>
 					</div>
 				</div>
 				<!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
@@ -222,6 +223,38 @@
 							</div>
 						</div>
 					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- import -->
+	<div class="modal fade" id="import_modal_voucher" tabindex="-1" role="dialog" aria-labelledby="modal-block-popin" aria-hidden="true">
+		<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="block block-themed block-transparent mb-0">
+					<div class="block-header" style="background-color: #7750b1;">
+						<h3 class="block-title">Import Data Voucher</h3>
+						<div class="block-options">
+							<button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+								<i class="fa fa-fw fa-times"></i>
+							</button>
+						</div>
+					</div>
+					<form action="{{ route('voucher.import') }}" method="POST" enctype="multipart/form-data">
+					@csrf
+						<div class="block-content font-size-sm text-center">
+							<div class="form-group">
+								<h5 class="mb-1"><b>Contoh File Excel</b></h5>
+								<img class="img-responsive mb-2" src="{{ asset('images/example/contoh_import.png') }}" alt="contoh import" style="max-height:350px;position:relative;">
+								<input type="file" name="file" class="form-control" accept=".csv, .xls, .xlsx" required>
+							</div>
+						</div>
+						<div class="block-content block-content-full text-right border-top">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+							<button type="submit" class="btn" style="background-color: #ff8e0d;border-color:#000000;" id="import_submit_btn">Import</button>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
