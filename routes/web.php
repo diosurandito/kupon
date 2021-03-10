@@ -31,5 +31,9 @@ Route::get('voucher/edit/{id}', 'Admin\VoucherController@edit')->name('voucher.e
 Route::patch('voucher/update', 'Admin\VoucherController@update')->name('voucher.update');
 Route::post('voucher/import','Admin\VoucherController@import_excel')->name('voucher.import');
 
+//Transaction
+Route::get('transaction', 'Admin\TransactionController@index')->name('transaction.index');
+
+
 
 });

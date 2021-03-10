@@ -243,6 +243,7 @@
 					</div>
 					<form action="{{ route('voucher.import') }}" method="POST" enctype="multipart/form-data">
 					@csrf
+					@method('POST')
 						<div class="block-content font-size-sm text-center">
 							<div class="form-group">
 								<h5 class="mb-1"><b>Contoh File Excel</b></h5>

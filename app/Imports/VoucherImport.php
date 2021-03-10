@@ -5,9 +5,9 @@ namespace App\Imports;
 use App\Voucher;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use PhpOffice\PhpSpreadsheet\Shared\Date;
+// use PhpOffice\PhpSpreadsheet\Shared\Date;
 
-class VoucherImport implements ToModel
+class VoucherImport implements ToModel, WithHeadingRow
 {
     /**
     * @param array $row

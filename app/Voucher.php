@@ -11,5 +11,6 @@ class Voucher extends Model
     use SoftDeletes;
     
     protected $guarded = [];
+    protected $table = 'vouchers';
 	protected $dates =['deleted_at'];
 }

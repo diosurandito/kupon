@@ -28,6 +28,12 @@
                 </a>
             </li>
             <li class="nav-main-item">
+                <a class="nav-main-link @if (Request::is('transaction')) active @endif" href="{{route('transaction.index')}}">
+                    <i class="nav-main-link-icon fa fa-handshake"></i>
+                    <span class="nav-main-link-name">Transaksi</span>
+                </a>
+            </li>
+            <li class="nav-main-item">
                 <a class="nav-main-link @if (Request::is('voucher')) active @endif" href="{{route('voucher.index')}}">
                     <i class="nav-main-link-icon fa fa-ticket-alt"></i>
                     <span class="nav-main-link-name">Voucher</span>
