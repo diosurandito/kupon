@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
-use App\DetailTransaction;
+use App\TransactionDetail;
 use App\Transaction;
+use App\Customer;
 use App\Voucher;
 use DataTables;
 use Validator;
@@ -37,9 +38,12 @@ class TransactionController extends Controller
 			}else {
 				$data = DB::table('transactions')
                 ->join('customers', 'transactions.id_user', '=', 'customers.id')
-                // ->join('detail_transactions', 'transactions.id', '=', 'detail_transactions.id_transaksi')
-                ->select('transactions.*', 'customers.nama', 'customers.no_telp')
-                ->orderBy('id', 'DESC')->get();
+                ->join('transaction_details', 'transactions.id', '=', 'transaction_details.id_transaksi')
+                ->join('vouchers', 'transaction_details.kode_voucher', '=', 'vouchers.kode_voucher')
+				->select('transactions.*',(DB::raw('SUM(vouchers.nilai) as ttl_voucher')), 'customers.nama', 'customers.no_telp')
+				->groupBy('transactions.id')
+                ->orderBy('transactions.id', 'DESC')->get();
+	
 			}
 
 			$data->map(function ($data) {
@@ -47,10 +51,9 @@ class TransactionController extends Controller
                 $data->created_at_fh = date('d-m-Y', strtotime($data->created_at));
                 $data->tgl_transaksi_fh = date('d-m-Y', strtotime($data->tgl_transaksi));
                 $data->ttl_transaksi_fh = 'Rp. '.format_uang($data->ttl_transaksi);
-                $data->ttl_voucher = 'Rp. '.format_uang(300000);
+                $data->ttl_voucher = 'Rp. '.format_uang($data->ttl_voucher);
 				return $data;
 			});
-
 			return DataTables::of($data)
 			->addIndexColumn()
 			->addColumn('aksi', function($data){
@@ -64,8 +67,44 @@ class TransactionController extends Controller
 			->rawColumns(['aksi'])
 			->make(true);
 		}
-
         return view('pages.admin.transaction');
+		// dd($data);
     
     }
+
+	public function store(Request $request)
+	{
+		$ttl_transaksi_str = preg_replace("/[^0-9]/", "", $request->ttl_transaksi);
+		$ttl_transaksi_int = (int) $ttl_transaksi_str;
+		
+		//user insert
+		$cust_data = array(
+			'nama' => $request->nama,
+			'no_telp' => $request->no_telp,
+		);
+		$cust = Customer::create($cust_data);
+
+		//transaction insert
+		$trans_data = array(
+			'id_user' => $cust->id,
+			'tgl_transaksi' => now(),
+			'ttl_transaksi' => $ttl_transaksi_int,
+			'keterangan' => $request->keterangan,
+		);
+		$trans = Transaction::create($trans_data);
+
+
+		// detail transaction insert
+		foreach ($request->kode_voucher as $voucher) {
+			$detail_data = array(
+				'id_transaksi' => $trans->id,
+				'kode_voucher' => $voucher,
+			);
+			$detail = TransactionDetail::create($detail_data);
+			Voucher::where('kode_voucher', '=', $voucher)->update(['vc_flag' => 1]);
+			// echo $voucher;
+		}
+
+		return redirect()->route('transaction.index')->with('success', 'Data transaksi berhasil ditambahkan');
+	}
 }

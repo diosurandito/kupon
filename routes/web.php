@@ -33,6 +33,8 @@ Route::post('voucher/import','Admin\VoucherController@import_excel')->name('vouc
 
 //Transaction
 Route::get('transaction', 'Admin\TransactionController@index')->name('transaction.index');
+Route::post('transaction/store','Admin\TransactionController@store')->name('transaction.store');
+
 
 
 

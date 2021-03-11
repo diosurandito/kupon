@@ -19,13 +19,13 @@
     <!-- END Hero -->
 
     <div class="content">
-        <div class="block">
+        <div class="block" id="form_trans">
             <div class="block">
                 <div class="block-header">
                     <h3 class="block-header">Formulir Tambah Transaksi Voucher</h3> 
                 </div>
                 <div class="block-content block-content-full">
-                    <form class="js-validation" id="add_rekap_po_form" method="post" enctype="multipart/form-data" autocomplete="off">
+                    <form class="js-validation" id="add_rekap_po_form" action="{{ route('transaction.store') }}" method="post" enctype="multipart/form-data" autocomplete="off">
                         @csrf
                         @method('POST')
                         <!-- Regular -->
@@ -50,7 +50,7 @@
                                             <span class="input-group-text" style="background-color: #7750b1;color:#ffffff;"><i class="fa fa-phone"></i>
                                             </span>
                                         </div>
-                                        <input type="tel" id="no_telp" class="form-control js-maxlength" pattern="\+?([ -]?\d+)+|\(\d+\)([ -]\d+)" maxlength="25" name="no_telp" placeholder="Misal: 081144449999" data-always-show="true" data-warning-class="badge badge-primary" data-limit-reached-class="badge badge-primary" required>
+                                        <input type="tel" id="no_telp" name="no_telp" class="form-control js-maxlength" pattern="\+?([ -]?\d+)+|\(\d+\)([ -]\d+)" maxlength="25" name="no_telp" placeholder="Misal: 081144449999" data-always-show="true" data-warning-class="badge badge-primary" data-limit-reached-class="badge badge-primary" required>
                                     </div>
                                 </div>
 
@@ -82,7 +82,7 @@
                             <div class="form-group">
                                 <label for="">Kode Voucher<span class="text-danger">*</span></label><br>
                                 <div class="input-group">
-                                    <select class="js-select2 form-control" id="kode_voucher" name="kode_voucher" style="width: 100%;height: 2.375rem;line-height: 2.375rem;background-color: #7750b1;font-size: 1.1rem;" data-placeholder="Pilih kode voucher" multiple required>
+                                    <select class="js-select2 form-control" id="kode_voucher" name="kode_voucher[]" style="width: 100%;height: 2.375rem;line-height: 2.375rem;background-color: #7750b1;font-size: 1.1rem;" data-placeholder="Pilih kode voucher" multiple required>
                                         <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
                                         @foreach ($vouchers as $v)
                                         <option value="{{$v->kode_voucher}}">{{$v->kode_voucher}} ({{format_ribuan($v->nilai)}})</option>

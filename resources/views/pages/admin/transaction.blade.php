@@ -83,13 +83,68 @@
 							<th style="font-size: 14px;" class="align-middle">Nama</th>
 							<th style="font-size: 14px;" class="align-middle">No Telp</th>
 							<th style="font-size: 14px;" class="align-middle">Total Transaksi</th>
-							<th style="font-size: 14px;" class="align-middle">Total Nilai Voucher</th>
+							<th style="font-size: 14px;" class="align-middle">Total Nilai transaction</th>
 							<th style="font-size: 14px;" class="align-middle">Tanggal Transaksi</th>
 							<th width="100" style="font-size: 14px;" class="align-middle">Aksi</th>
 						</tr>
 					</thead>
 					<tbody></tbody>
 				</table>  
+			</div>
+		</div>
+	</div>
+
+	<!-- detail -->
+	<div class="modal fade" id="detail_modal_transaction" tabindex="-1" role="dialog" aria-labelledby="modal-block-popin" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="block block-themed block-transparent mb-0">
+					<div class="block-header" style="background-color: #7750b1;">
+						<h3 class="block-title">Detail Data Transaksi</h3>
+						<div class="block-options">
+							<button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+								<i class="fa fa-fw fa-times"></i>
+							</button>
+						</div>
+					</div>
+					<div class="block-content font-size-sm">
+						<div class="row">
+							<div class="col-lg-8 col-xl-12">
+								<form method="post" id="detail_transaction_form">
+									@csrf
+									<div class="row">
+										<div class="form-group col-6">
+											<label for="">Kode transaction</label><br>
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text text-white" style="background-color: #7750b1;"><i class="fa fa-barcode"></i>
+													</span>
+												</div>
+												<input type="text" class="form-control" id="kode_transaction_detail" name="kode_transaction_detail" maxlength="15" placeholder="Masukkan kode transaction" data-always-show="true" data-warning-class="badge badge-primary" data-limit-reached-class="badge badge-primary" required>
+											</div>
+										</div>
+										<div class="form-group col-6">
+											<label for="">Nilai transaction</label><br>
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text text-white" style="background-color: #7750b1;"><i class="fa fa-money-check-alt"></i>
+													</span>
+												</div>
+												<input type="text" class="form-control" maxlength="17" id="nilai_detail" name="nilai_detail" placeholder="Masukkan nilai transaction" data-always-show="true" data-warning-class="badge badge-primary" data-limit-reached-class="badge badge-primary" required>   
+											</div>
+										</div>
+									</div>
+									
+									<div class="block-content block-content-full text-right border-top">
+										<input type="hidden" name="hidden_id_transaction" id="hidden_id_transaction">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+										<!-- <button type="submit" class="btn" style="background-color: #ff8e0d;border-color:#000000;" id="detail_transaction_savebtn">Simpan</button> -->
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
