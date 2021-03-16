@@ -42,9 +42,9 @@
 		<div class="block">
 			<div class="block-header" style="background: #2d174c;">
 				<h2 class="block-title text-white">Data Transaksi</h2>
-				<button class="btn mr-1 mb-0" style="background-color: #ff8e0d;border-color: #ffffff;color:#2d174c;" name="add_transaction_btn" id="add_transaction_btn" data-toggle="modal" data-target="#add_transaction_modal">
+				<a href="{{route('home')}}#save_btn" class="btn mr-1 mb-0" style="background-color: #ff8e0d;border-color: #ffffff;color:#2d174c;" name="add_transaction_btn" id="add_transaction_btn">
 					<i class="fa fa-fw fa-plus mr-1"></i> Tambah Data
-				</button>
+				</a>
 			</div>
 			<div class="block-content block-content-full">
 			<div class="row mb-2" style="width: 100%;">
@@ -82,10 +82,11 @@
 							<th width="20" style="font-size: 14px;" class="align-middle">No.</th>
 							<th style="font-size: 14px;" class="align-middle">Nama</th>
 							<th style="font-size: 14px;" class="align-middle">No Telp</th>
-							<th style="font-size: 14px;" class="align-middle">Total Transaksi</th>
-							<th style="font-size: 14px;" class="align-middle">Total Nilai transaction</th>
-							<th style="font-size: 14px;" class="align-middle">Tanggal Transaksi</th>
-							<th width="100" style="font-size: 14px;" class="align-middle">Aksi</th>
+							<!-- <th style="font-size: 14px;" class="align-middle">Total Transaksi</th> -->
+							<!-- <th style="font-size: 14px;" class="align-middle">Total Nilai Voucher</th> -->
+							<th width="270" style="font-size: 14px;" class="align-middle">Kode Voucher</th>
+							<th width="100" style="font-size: 14px;" class="align-middle">Tanggal Transaksi</th>
+							<th width="50" style="font-size: 14px;" class="align-middle">Aksi</th>
 						</tr>
 					</thead>
 					<tbody></tbody>
@@ -112,33 +113,97 @@
 							<div class="col-lg-8 col-xl-12">
 								<form method="post" id="detail_transaction_form">
 									@csrf
-									<div class="row">
-										<div class="form-group col-6">
-											<label for="">Kode transaction</label><br>
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text text-white" style="background-color: #7750b1;"><i class="fa fa-barcode"></i>
-													</span>
+									<div class="row items-push">
+										<div class="column col-7">
+											<div class="form-group">
+												<label for="">Nama Customer<span class="text-danger"></span></label><br>
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"style="background-color: #7750b1;color:#ffffff;"><i class="fa fa-user"></i>
+														</span>
+													</div>
+													<input type="text" class="form-control" id="nama_detail" name="nama_detail" value="Dio Surandito" disabled>
 												</div>
-												<input type="text" class="form-control" id="kode_transaction_detail" name="kode_transaction_detail" maxlength="15" placeholder="Masukkan kode transaction" data-always-show="true" data-warning-class="badge badge-primary" data-limit-reached-class="badge badge-primary" required>
+											</div>
+											<div class="row">
+												<div class="form-group col-6">
+													<label for="">No. Telp Customer<span class="text-danger"></span></label><br>
+													<div class="input-group">
+														<div class="input-group-prepend">
+															<span class="input-group-text" style="background-color: #7750b1;color:#ffffff;"><i class="fa fa-phone"></i>
+															</span>
+														</div>
+														<input type="tel" id="no_telp_detail" name="no_telp_detail" class="form-control" value="087737781051" disabled>
+													</div>
+												</div>
+												<div class="form-group col-6">
+													<label for="">Tanggal Transaksi<span class="text-danger"></span></label><br>
+													<div class="input-group">
+														<div class="input-group-prepend">
+															<span class="input-group-text"style="background-color: #7750b1;color:#ffffff;"><i class="fa fa-calendar-alt"></i>
+															</span>
+														</div>
+														<input type="text" class="form-control" id="tgl_transaksi_detail" name="tgl_transaksi_detail" disabled>
+													</div>
+												</div>
+											</div>
+											
+											<div class="row">
+												<div class="form-group col-6">
+													<label for="">Total Transaksi<span class="text-danger"></span></label><br>
+													<div class="input-group">
+														<div class="input-group-prepend">
+															<span class="input-group-text"style="background-color: #7750b1;color:#ffffff;"><i class="far fa-money-bill-alt"></i>
+															</span>
+														</div>
+														<input type="text" class="form-control" id="ttl_transaksi_detail" name="ttl_transaksi_detail" disabled>   
+													</div>
+												</div>
+												<div class="form-group col-6">
+													<label for="">Total Nilai Voucher<span class="text-danger"></span></label><br>
+													<div class="input-group">
+														<div class="input-group-prepend">
+															<span class="input-group-text"style="background-color: #7750b1;color:#ffffff;"><i class="far fa-money-bill-alt"></i>
+															</span>
+														</div>
+														<input type="text" class="form-control" id="ttl_voucher_detail" name="ttl_voucher_detail" disabled>   
+													</div>
+												</div>
+											</div>
+											
+											<div class="form-group">
+												<label for="">Keterangan<span class="text-danger"></span></label><br>
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"style="background-color: #7750b1;color:#ffffff;"><i class="fa fa-list-alt"></i>
+														</span>
+													</div>
+													<textarea type="text" class="form-control" id="keterangan_detail" name="keterangan_detail" rows="2" disabled></textarea>
+												</div>
 											</div>
 										</div>
-										<div class="form-group col-6">
-											<label for="">Nilai transaction</label><br>
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text text-white" style="background-color: #7750b1;"><i class="fa fa-money-check-alt"></i>
-													</span>
+
+										<div class="column col-5">
+											<div class="form-group">
+												<label for="">Kode Voucher<span class="text-danger"></span></label><br>
+												<div class="input-group">
+													<select class="js-select2 form-control" id="kode_voucher_detail" name="kode_voucher_detail[]" style="width: 100%;height: 2.375rem;line-height: 2.375rem;background-color: #7750b1;font-size: 1.1rem;" data-placeholder="Pilih kode voucher" multiple disabled>
+														<option></option> <!-- Required for data-placeholder attribute to work with Select2 plugin -->
+														@foreach ($vouchers as $v)
+														<option id="{{$v->kode_voucher}}" value="{{$v->kode_voucher}}">{{$v->kode_voucher}} ({{format_ribuan($v->nilai)}})</option>
+														@endforeach 
+														
+													</select>
 												</div>
-												<input type="text" class="form-control" maxlength="17" id="nilai_detail" name="nilai_detail" placeholder="Masukkan nilai transaction" data-always-show="true" data-warning-class="badge badge-primary" data-limit-reached-class="badge badge-primary" required>   
 											</div>
+										</div><br>
+										<!-- Submit -->
+										
+										<div class="block-content block-content-full text-right border-top">
+											<input type="hidden" name="hidden_id_transaction" id="hidden_id_transaction">
+											<button type="button" class="btn" style="background-color: #ff8e0d;border-color:#000000;" data-dismiss="modal">Tutup</button>
+											<!-- <button type="submit" class="btn" style="background-color: #ff8e0d;border-color:#000000;" id="detail_transaction_savebtn">Simpan</button> -->
 										</div>
-									</div>
-									
-									<div class="block-content block-content-full text-right border-top">
-										<input type="hidden" name="hidden_id_transaction" id="hidden_id_transaction">
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-										<!-- <button type="submit" class="btn" style="background-color: #ff8e0d;border-color:#000000;" id="detail_transaction_savebtn">Simpan</button> -->
 									</div>
 								</form>
 							</div>

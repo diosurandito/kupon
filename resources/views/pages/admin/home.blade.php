@@ -93,8 +93,8 @@
                         </div><br>
                         <!-- Submit -->
                         <div class="block-content block-content-full text-right border-top">
-                            <a href="#" type="submit" class="btn btn-secondary" >Batal</a>
-                            <button type="submit" class="btn" style="background-color: #ff8e0d;border-color:#000000;">Simpan</button>
+                            <a href="{{route('home')}}" class="btn btn-secondary" >Batal</a>
+                            <button type="submit" class="btn" id="save_btn" style="background-color: #ff8e0d;border-color:#000000;">Simpan</button>
                         </div>
                         <!-- END Submit -->
                     </form>

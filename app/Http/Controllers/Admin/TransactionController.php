@@ -23,8 +23,10 @@ class TransactionController extends Controller
 
     public function index(Request $request)
     {
+		
         if($request->ajax())
 		{
+			
 			if(!empty($request->from_date))
 			{
 				$from_date = date('Y-m-d', strtotime($request->from_date));
@@ -40,7 +42,7 @@ class TransactionController extends Controller
                 ->join('customers', 'transactions.id_user', '=', 'customers.id')
                 ->join('transaction_details', 'transactions.id', '=', 'transaction_details.id_transaksi')
                 ->join('vouchers', 'transaction_details.kode_voucher', '=', 'vouchers.kode_voucher')
-				->select('transactions.*',(DB::raw('SUM(vouchers.nilai) as ttl_voucher')), 'customers.nama', 'customers.no_telp')
+				->select('transactions.*', DB::raw('SUM(vouchers.nilai) as ttl_voucher'), DB::raw('group_concat(vouchers.kode_voucher) as kode_voucher_gb'), 'customers.nama', 'customers.no_telp')
 				->groupBy('transactions.id')
                 ->orderBy('transactions.id', 'DESC')->get();
 	
@@ -48,18 +50,21 @@ class TransactionController extends Controller
 
 			$data->map(function ($data) {
                 
-                $data->created_at_fh = date('d-m-Y', strtotime($data->created_at));
+                
                 $data->tgl_transaksi_fh = date('d-m-Y', strtotime($data->tgl_transaksi));
                 $data->ttl_transaksi_fh = 'Rp. '.format_uang($data->ttl_transaksi);
                 $data->ttl_voucher = 'Rp. '.format_uang($data->ttl_voucher);
+				$data->kode_voucher_gb_ex = explode(',',$data->kode_voucher_gb);
+				$data->kode_voucher_gb = join(' + ',$data->kode_voucher_gb_ex);
+
 				return $data;
 			});
 			return DataTables::of($data)
 			->addIndexColumn()
 			->addColumn('aksi', function($data){
 				$button = '<div class="btn-group">
-				<button type="button" class="detail_voucher btn btn-sm btn-info" data-toggle="modal" data-target="#detail_modal_voucher" name="detail_data_voucher" id="'.$data->id.'" created_at="'.$data->created_at_fh.'" title="Detail transaksi">
-				<i class="fa fa-pen"></i>
+				<button type="button" class="detail_transaction btn btn-sm btn-info" data-toggle="modal" data-target="#detail_modal_transaction" name="detail_data_transaction" id="'.$data->id.'" nama="'.$data->nama.'" no_telp="'.$data->no_telp.'" ttl_transaksi="'.$data->ttl_transaksi_fh.'" ttl_voucher="'.$data->ttl_voucher.'" tgl_transaksi="'.$data->tgl_transaksi_fh.'" keterangan="'.$data->keterangan.'" ="'.$data->tgl_transaksi_fh.'" title="Detail transaksi">
+				<i class="fa fa-list-alt"></i>
 				</button>
 				</div>';
 				return $button;
@@ -67,7 +72,12 @@ class TransactionController extends Controller
 			->rawColumns(['aksi'])
 			->make(true);
 		}
-        return view('pages.admin.transaction');
+		$vouchers = Voucher::select('*')
+			->where('vc_flag', '=', 1)
+			->orderBy('id','ASC')
+			->get();
+
+        return view('pages.admin.transaction', compact('vouchers'));
 		// dd($data);
     
     }
@@ -106,5 +116,16 @@ class TransactionController extends Controller
 		}
 
 		return redirect()->route('transaction.index')->with('success', 'Data transaksi berhasil ditambahkan');
+	}
+
+	public function detail($id)
+	{
+		if(request()->ajax())
+		{
+			$data = DB::table('transaction_details')
+			->select('kode_voucher')
+			->where('id_transaksi', '=', $id)->get();
+			return response()->json(['result' => $data]);
+		}
 	}
 }

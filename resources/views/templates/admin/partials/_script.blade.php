@@ -408,8 +408,9 @@
                 {data: 'DT_RowIndex', name: 'DT_RowIndex', sClass: 'text-center'},
                 {data: 'nama', name: 'nama', sClass: 'text-center'},
                 {data: 'no_telp', name: 'no_telp', sClass: 'text-center'},
-                {data: 'ttl_transaksi_fh', name: 'ttl_transaksi_fh', sClass: 'text-center'},
-                {data: 'ttl_voucher', name: 'ttl_voucher', sClass: 'text-center'},
+                // {data: 'ttl_transaksi_fh', name: 'ttl_transaksi_fh', sClass: 'text-center'},
+                // {data: 'ttl_voucher', name: 'ttl_voucher', sClass: 'text-center'},
+                {data: 'kode_voucher_gb', name: 'kode_voucher_gb', sClass: 'text-center'},
                 {data: 'tgl_transaksi_fh', name: 'tgl_transaksi_fh', sClass: 'text-center'},
                 {data: 'aksi', name: 'aksi', sClass: 'text-center', orderable: false, searchable: false},
                 ]
@@ -436,6 +437,38 @@
             $('#to_date').val('');
             $('#tb_transaction').DataTable().destroy();
             load_data();
+        });
+
+        //detail data
+        $(document).on('click', '.detail_transaction', function(){
+            var id_transaction = $(this).attr('id');
+            var nama = $(this).attr('nama');
+            var no_telp = $(this).attr('no_telp');
+            var tgl_transaksi = $(this).attr('tgl_transaksi');
+            var ttl_voucher = $(this).attr('ttl_voucher');
+            var ttl_transaksi = $(this).attr('ttl_transaksi');
+            var keterangan = $(this).attr('keterangan');
+            
+            $.ajax({
+                url :"transaction/detail/"+ id_transaction,
+                dataType:"json",
+                success:function(data)
+                {
+                    kdvc_opt_sel = data.result.map(obj => obj.kode_voucher);
+                    $('#nama_detail').val(nama);
+                    $('#no_telp_detail').val(no_telp);
+                    $('#tgl_transaksi_detail').val(tgl_transaksi);
+                    $('#ttl_transaksi_detail').val(ttl_transaksi);
+                    $('#ttl_voucher_detail').val(ttl_voucher);
+                    $('#keterangan_detail').val(keterangan);
+                    $('#hidden_id_transaction').val(id_transaction);
+                    $('#kode_voucher_detail').val(kdvc_opt_sel);
+                    $('#kode_voucher_detail').trigger('change');
+                    
+                    
+
+                }
+            });
         });
 
     //

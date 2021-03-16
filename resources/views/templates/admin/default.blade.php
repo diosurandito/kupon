@@ -25,7 +25,7 @@
       <div class="content py-3">
         <div class="row font-size-sm">
           <div class="col-sm-6 order-sm-2 py-1 text-center text-sm-right">
-            <a class="font-w600" href="" target="_blank">PT. Jaya Kreasi Indonesia</a> &copy; <span data-toggle="year-copy">2020</span>
+            <a class="font-w600" href="" target="_blank">PT. Jaya Kreasi Indonesia</a> &copy; <span data-toggle="year-copy">2021</span>
           </div>
           <div class="col-sm-6 order-sm-1 py-1 text-center text-sm-left">
 

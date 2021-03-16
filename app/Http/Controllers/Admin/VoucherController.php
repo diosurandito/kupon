@@ -53,14 +53,22 @@ class VoucherController extends Controller
                 return $status;
             })
 			->addColumn('aksi', function($data){
-				$button = '<div class="btn-group">
-				<button type="button" class="edit_voucher btn btn-sm btn-warning" data-toggle="modal" data-target="#edit_modal_voucher" name="edit_data_voucher" id="'.$data->id.'" kode_voucher="'.$data->kode_voucher.'" nilai_fh="'.$data->nilai_fh.'" created_at="'.$data->created_at_fh.'" title="Edit Data">
-				<i class="fa fa-pen"></i>
-				</button>
-				<button type="button" class="delete_voucher btn btn-sm btn-danger" data-toggle="modal" data-target="#confirm_delete_modal_voucher" name="delete_data_voucher" id="'.$data->id.'" kode_voucher="'.$data->kode_voucher.'" title="Hapus Data">
-				<i class="fa fa-fw fa-trash"></i>
-				</button>
-				</div>';
+				if ($data->vc_flag == 0) {
+					$button = '<div class="btn-group">
+					<button type="button" class="edit_voucher btn btn-sm btn-warning" data-toggle="modal" data-target="#edit_modal_voucher" name="edit_data_voucher" id="'.$data->id.'" kode_voucher="'.$data->kode_voucher.'" nilai_fh="'.$data->nilai_fh.'" created_at="'.$data->created_at_fh.'" title="Edit Data">
+					<i class="fa fa-pen"></i>
+					</button>
+					<button type="button" class="delete_voucher btn btn-sm btn-danger" data-toggle="modal" data-target="#confirm_delete_modal_voucher" name="delete_data_voucher" id="'.$data->id.'" kode_voucher="'.$data->kode_voucher.'" title="Hapus Data">
+					<i class="fa fa-fw fa-trash"></i>
+					</button>
+					</div>';
+				}else{
+					$button = '<div class="btn-group">
+					<button type="button" class="delete_voucher btn btn-sm btn-danger" data-toggle="modal" data-target="#confirm_delete_modal_voucher" name="delete_data_voucher" id="'.$data->id.'" kode_voucher="'.$data->kode_voucher.'" title="Hapus Data">
+					<i class="fa fa-fw fa-trash"></i>
+					</button>
+					</div>';
+				}
 				return $button;
 			})
 			->rawColumns(['aksi', 'status'])
