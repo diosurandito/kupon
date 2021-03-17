@@ -33,10 +33,12 @@ class TransactionController extends Controller
 				$to_date = date('Y-m-d', strtotime($request->to_date));
 				$data = DB::table('transactions')
                 ->join('customers', 'transactions.id_user', '=', 'customers.id')
-                // ->join('detail_transactions', 'transactions.id', '=', 'detail_transactions.id_transaksi')
-                ->select('transactions.*', 'customers.nama', 'customers.no_telp')
-                ->whereBetween('tgl_transaksi', array($from_date, $to_date))
-                ->orderBy('id', 'DESC')->get();
+                ->join('transaction_details', 'transactions.id', '=', 'transaction_details.id_transaksi')
+				->join('vouchers', 'transaction_details.kode_voucher', '=', 'vouchers.kode_voucher')
+                ->select('transactions.*', DB::raw('SUM(vouchers.nilai) as ttl_voucher'), DB::raw('group_concat(vouchers.kode_voucher) as kode_voucher_gb'), 'customers.nama', 'customers.no_telp')
+                ->whereBetween('transactions.tgl_transaksi', array($from_date, $to_date))
+				->groupBy('transactions.id')
+                ->orderBy('transactions.id', 'DESC')->get();
 			}else {
 				$data = DB::table('transactions')
                 ->join('customers', 'transactions.id_user', '=', 'customers.id')
