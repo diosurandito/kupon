@@ -64,7 +64,7 @@ class TransactionController extends Controller
 			->addColumn('aksi', function($data){
 				$button = '<div class="btn-group">
 				<button type="button" class="detail_transaction btn btn-sm btn-info" data-toggle="modal" data-target="#detail_modal_transaction" name="detail_data_transaction" id="'.$data->id.'" nama="'.$data->nama.'" no_telp="'.$data->no_telp.'" ttl_transaksi="'.$data->ttl_transaksi_fh.'" ttl_voucher="'.$data->ttl_voucher.'" tgl_transaksi="'.$data->tgl_transaksi_fh.'" keterangan="'.$data->keterangan.'" ="'.$data->tgl_transaksi_fh.'" title="Detail transaksi">
-				<i class="fa fa-list-alt"></i>
+				<i class="far fa-list-alt"></i>
 				</button>
 				</div>';
 				return $button;

@@ -43,12 +43,17 @@
 			<div class="block-header" style="background: #2d174c;">
 				<h2 class="block-title text-white">Data Voucher</h2>
 				<button class="btn mr-1 mb-0" style="background-color: #ff8e0d;border-color: #ffffff;color:#2d174c;" name="add_voucher_btn" id="add_voucher_btn" data-toggle="modal" data-target="#add_voucher_modal">
-					<i class="fa fa-fw fa-plus mr-1"></i> Tambah Data
+					<i class="fa fa-fw fa-plus mr-1"></i>Tambah
 				</button>
+				<!-- <div class="col-4" style="text-align: right;padding-right: 0px"> -->
+						<button class="btn btn-success mb-0" name="import_voucher_btn" id="import_voucher_btn" data-toggle="modal" data-target="#import_modal_voucher">
+							<i class="fa fa-file-excel"></i> Import
+						</button>
+				<!-- </div> -->
 			</div>
 			<div class="block-content block-content-full">
 			<div class="row mb-2" style="width: 100%;">
-					<div class="col-8">
+					<!-- <div class="col-8">
 						<form method="post" action="#">
 							@csrf
 							@method('POST')
@@ -65,20 +70,16 @@
 								</div>
 								<div class="col-4">
 									<button type="button" name="filter" id="filter" class="btn btn-warning" title="Filter/Search"><i class="fa fa-search"></i></button>
-									<button type="button" name="refresh" id="refresh" title="Refresh" class="btn btn-secondary"><i class="fa fa-redo"></i></button>
+									<button type="button" name="refresh" id="refresh" title="Refresh" class="btn btn-secondary"><i class="fa fa-redo"></i></button> -->
 									<!-- <button type="submit" name="export" id="export" class="btn btn-outline-success" title="Export to Excel"><i class="fa fa-file-excel"></i> Export</i></button> -->
 									
-								</div>
+								<!-- </div>
 								<div class="col-lg-3"></div>
 							</div>
 						</form>
-					</div>
+					</div> -->
 					
-					<div class="col-4" style="text-align: right;padding-right: 0px">
-						<button class="btn btn-success mb-0" name="import_voucher_btn" id="import_voucher_btn" data-toggle="modal" data-target="#import_modal_voucher">
-							<i class="fa fa-file-excel"></i> Import
-						</button>
-					</div>
+					
 				</div>
 				<!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
 				<table id="tb_voucher" class="table table-sm table-bordered table-striped" style="font-size: 15px;width:100%;">
