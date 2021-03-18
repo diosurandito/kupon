@@ -53,7 +53,7 @@
 			</div>
 			<div class="block-content block-content-full">
 			<div class="row mb-2" style="width: 100%;">
-					<!-- <div class="col-8">
+					<div class="col-8">
 						<form method="post" action="#">
 							@csrf
 							@method('POST')
@@ -70,14 +70,14 @@
 								</div>
 								<div class="col-4">
 									<button type="button" name="filter" id="filter" class="btn btn-warning" title="Filter/Search"><i class="fa fa-search"></i></button>
-									<button type="button" name="refresh" id="refresh" title="Refresh" class="btn btn-secondary"><i class="fa fa-redo"></i></button> -->
+									<button type="button" name="refresh" id="refresh" title="Refresh" class="btn btn-secondary"><i class="fa fa-redo"></i></button>
 									<!-- <button type="submit" name="export" id="export" class="btn btn-outline-success" title="Export to Excel"><i class="fa fa-file-excel"></i> Export</i></button> -->
 									
-								<!-- </div>
+								</div>
 								<div class="col-lg-3"></div>
 							</div>
 						</form>
-					</div> -->
+					</div>
 					
 					
 				</div>
@@ -244,7 +244,6 @@
 					</div>
 					<form action="{{ route('voucher.import') }}" method="POST" enctype="multipart/form-data">
 					@csrf
-					@method('POST')
 						<div class="block-content font-size-sm text-center">
 							<div class="form-group">
 								<h5 class="mb-1"><b>Contoh File Excel</b></h5>
