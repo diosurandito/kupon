@@ -1,0 +1,11 @@
+ALTER TABLE vouchers
+  ADD expired_at DATE NULL
+    AFTER vc_flag;
+
+______________________________________
+
+UPDATE vouchers
+SET expired_at = '2022-12-30'
+WHERE expired_at IS NULL;
+
+______________________________________

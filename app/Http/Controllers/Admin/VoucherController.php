@@ -17,45 +17,56 @@ use DB;
 
 class VoucherController extends Controller
 {
-    public function __construct()
+	public function __construct()
 	{
 		$this->middleware('auth:admin');
 	}
 
-    public function index(Request $request)
-    {
-        if($request->ajax())
+	public function index(Request $request)
+	{
+		
+		if($request->ajax())
 		{
 			if(!empty($request->from_date))
 			{
 				$from_date = date('Y-m-d 00:00:00', strtotime($request->from_date));
 				$to_date = date('Y-m-d 23:59:59', strtotime($request->to_date));
-				$data = Voucher::select('*')->whereBetween('created_at', array($from_date, $to_date))->orderBy('id', 'DESC')->orderBy('vc_flag', 'ASC')->get();
+				$data = Voucher::select('*')->whereBetween('created_at', array($from_date, $to_date))->orderBy('vc_flag', 'ASC')->orderBy('expired_at', 'DESC')->get();
 			}else {
-				$data = Voucher::select('*')->orderBy('id', 'DESC')->orderBy('vc_flag', 'ASC')->get();
+				$data = Voucher::select('*')->orderBy('vc_flag', 'ASC')->orderBy('expired_at', 'DESC')->get();
 			}
 
 			$data->map(function ($data) {
-                
-                $data->created_at_fh = date('d-m-Y', strtotime($data->created_at));
-                $data->nilai_fh = 'Rp. '.format_uang($data->nilai);
+
+				$data->created_at_fh = date('d-m-Y', strtotime($data->created_at));
+				$data->expired_at_fh = date('d-m-Y', strtotime($data->expired_at));
+				$data->nilai_fh = 'Rp. '.format_uang($data->nilai);
 				return $data;
 			});
 
+
 			return DataTables::of($data)
 			->addIndexColumn()
-            ->addColumn('status', function($data){
-                if ($data->vc_flag == 0) {
-                    $status = '<button type="button" class="btn btn-sm btn-outline-primary" style="cursor: default;">UNUSED</button>';
-                }else{
-                    $status = '<button type="button" class="btn btn-sm btn-outline-success" style="cursor: default;">USED</button>';
-                }
-                return $status;
-            })
+			->addColumn('status', function($data){
+				if($data->vc_flag == 0) {
+					if ($data->expired_at >= Carbon::now()->format('Y-m-d')) {
+						$status = '<button type="button" class="btn btn-sm btn-outline-primary" style="cursor: default;">UNUSED</button>';
+					} else {
+						$status = '<button type="button" class="btn btn-sm btn-outline-dark" style="cursor: default;">UNUSED|EXP</button>';
+					}	
+				}else{
+					if ($data->expired_at >= Carbon::now()->format('Y-m-d')) {
+						$status = '<button type="button" class="btn btn-sm btn-outline-success" style="cursor: default;">USED</button>';
+					} else {
+						$status = '<button type="button" class="btn btn-sm btn-outline-dark" style="cursor: default;">USED|EXP</button>';
+					}
+				}
+				return $status;
+			})
 			->addColumn('aksi', function($data){
-				if ($data->vc_flag == 0) {
+				if ($data->vc_flag == 0 && $data->expired_at >= Carbon::now()->format('Y-m-d')) {
 					$button = '<div class="btn-group">
-					<button type="button" class="edit_voucher btn btn-sm btn-warning" data-toggle="modal" data-target="#edit_modal_voucher" name="edit_data_voucher" id="'.$data->id.'" kode_voucher="'.$data->kode_voucher.'" nilai_fh="'.$data->nilai_fh.'" created_at="'.$data->created_at_fh.'" title="Edit Data">
+					<button type="button" class="edit_voucher btn btn-sm btn-warning" data-toggle="modal" data-target="#edit_modal_voucher" name="edit_data_voucher" id="'.$data->id.'" kode_voucher="'.$data->kode_voucher.'" nilai_fh="'.$data->nilai_fh.'" expired_at_fh="'.$data->expired_at_fh.'" created_at="'.$data->created_at_fh.'" title="Edit Data">
 					<i class="fa fa-pen"></i>
 					</button>
 					<button type="button" class="delete_voucher btn btn-sm btn-danger" data-toggle="modal" data-target="#confirm_delete_modal_voucher" name="delete_data_voucher" id="'.$data->id.'" kode_voucher="'.$data->kode_voucher.'" title="Hapus Data">
@@ -69,24 +80,27 @@ class VoucherController extends Controller
 					</button>
 					</div>';
 				}
+
 				return $button;
 			})
 			->rawColumns(['aksi', 'status'])
 			->make(true);
 		}
 
-        return view('pages.admin.voucher');
-    
-    }
+		return view('pages.admin.voucher');
+
+	}
 
 	public function store(Request $request)
 	{
 		$nilai_str = preg_replace("/[^0-9]/", "", $request->nilai);
 		$nilai_int = (int) $nilai_str;
+		$expired_at = date('Y-m-d', strtotime($request->expired_at));
 		
 		$form_data = array(
-			'kode_voucher' => $request->kode_voucher,
-			'nilai' => $nilai_int,
+			'kode_voucher' 	=> $request->kode_voucher,
+			'nilai' 		=> $nilai_int,
+			'expired_at' 	=> $expired_at
 		);
 
 		Voucher::create($form_data);
@@ -106,8 +120,9 @@ class VoucherController extends Controller
 	public function update(Request $request)
 	{
 		$rules = array(
-			'kode_voucher_edit'        =>  'required',
+			'kode_voucher_edit'	=>  'required',
 			'nilai_edit'        =>  'required',
+			'expired_at_edit'	=>  'required'
 		);
 
 		$error = Validator::make($request->all(), $rules);
@@ -118,10 +133,12 @@ class VoucherController extends Controller
 		}
 		$nilai_edit_str = preg_replace("/[^0-9]/", "", $request->nilai_edit);
 		$nilai_edit_int = (int) $nilai_edit_str;
+		$expired_at_edit = date('Y-m-d', strtotime($request->expired_at_edit));
 
 		$form_data = array(
-			'kode_voucher'    =>  $request->kode_voucher_edit,
-			'nilai'    =>  $nilai_edit_int,
+			'kode_voucher'	=>  $request->kode_voucher_edit,
+			'nilai'    		=>  $nilai_edit_int,
+			'expired_at'    =>  $expired_at_edit
 		);
 
 		Voucher::whereId($request->hidden_id_voucher)->update($form_data);
@@ -139,25 +156,25 @@ class VoucherController extends Controller
 	}
 
 	public function import_excel(Request $request)
-    {
-        $this->validate($request, [
-            'file' => 'required|mimes:csv,xls,xlsx'
-        ]);
-        $file = $request->file('file');
+	{
+		$this->validate($request, [
+			'file' => 'required|mimes:csv,xls,xlsx'
+		]);
+		$file = $request->file('file');
         // membuat nama file unik
-        $nama_file = $file->hashName();
+		$nama_file = $file->hashName();
         //temporary file
-        $path = $file->storeAs('public/excel/',$nama_file);
+		$path = $file->storeAs('public/excel/',$nama_file);
         // import data
-        $import = Excel::import(new VoucherImport(), storage_path('app/public/excel/'.$nama_file));
+		$import = Excel::import(new VoucherImport(), storage_path('app/public/excel/'.$nama_file));
         //remove from server
-        Storage::delete($path);
-        if($import) {
+		Storage::delete($path);
+		if($import) {
             //redirect
-            return redirect()->route('voucher.index')->with(['success' => 'Data Berhasil Diimport!']);
-        } else {
+			return redirect()->route('voucher.index')->with(['success' => 'Data Berhasil Diimport!']);
+		} else {
             //redirect
-            return redirect()->route('voucher.index')->with(['error' => 'Data Gagal Diimport!']);
-        }
-    }
+			return redirect()->route('voucher.index')->with(['error' => 'Data Gagal Diimport!']);
+		}
+	}
 }

@@ -31,13 +31,13 @@
 		
 		<div id="alert"></div>
 		@if($message = Session::get('success'))
-			<div class="alert alert-success" role="alert">
-				{{ $message }}
-			</div>
+		<div class="alert alert-success" role="alert">
+			{{ $message }}
+		</div>
 		@elseif($message =  Session::get('error'))
-			<div class="alert alert-danger" role="alert">
-				{{ $message }}
-			</div>
+		<div class="alert alert-danger" role="alert">
+			{{ $message }}
+		</div>
 		@endif
 		<div class="block">
 			<div class="block-header" style="background: #2d174c;">
@@ -47,7 +47,7 @@
 				</a>
 			</div>
 			<div class="block-content block-content-full">
-			<div class="row mb-2" style="width: 100%;">
+				<div class="row mb-2" style="width: 100%;">
 					<div class="col-8">
 						<form method="post" action="#">
 							@csrf
@@ -115,17 +115,17 @@
 									@csrf
 									<div class="row items-push">
 										<div class="column col-7">
-											<div class="form-group">
-												<label for="">Nama Customer<span class="text-danger"></span></label><br>
-												<div class="input-group">
-													<div class="input-group-prepend">
-														<span class="input-group-text"style="background-color: #7750b1;color:#ffffff;"><i class="fa fa-user"></i>
-														</span>
-													</div>
-													<input type="text" class="form-control" id="nama_detail" name="nama_detail" value="Dio Surandito" disabled>
-												</div>
-											</div>
 											<div class="row">
+												<div class="form-group col-6">
+													<label for="">Nama Customer<span class="text-danger"></span></label><br>
+													<div class="input-group">
+														<div class="input-group-prepend">
+															<span class="input-group-text"style="background-color: #7750b1;color:#ffffff;"><i class="fa fa-user"></i>
+															</span>
+														</div>
+														<input type="text" class="form-control" id="nama_detail" name="nama_detail" disabled>
+													</div>
+												</div>
 												<div class="form-group col-6">
 													<label for="">No. Telp Customer<span class="text-danger"></span></label><br>
 													<div class="input-group">
@@ -133,9 +133,34 @@
 															<span class="input-group-text" style="background-color: #7750b1;color:#ffffff;"><i class="fa fa-phone"></i>
 															</span>
 														</div>
-														<input type="tel" id="no_telp_detail" name="no_telp_detail" class="form-control" value="087737781051" disabled>
+														<input type="tel" id="no_telp_detail" name="no_telp_detail" class="form-control" disabled>
 													</div>
 												</div>
+											</div>
+											
+											<div class="row">
+												<div class="form-group col-6">
+													<label for="">Sub Total<span class="text-danger"></span></label><br>
+													<div class="input-group">
+														<div class="input-group-prepend">
+															<span class="input-group-text"style="background-color: #7750b1;color:#ffffff;"><i class="far fa-money-bill-alt"></i>
+															</span>
+														</div>
+														<input type="text" class="form-control" id="ttl_transaksi_detail" name="ttl_transaksi_detail" disabled>   
+													</div>
+												</div>
+												<div class="form-group col-6">
+													<label for="">Total Diskon<span class="text-danger"></span></label><br>
+													<div class="input-group">
+														<div class="input-group-prepend">
+															<span class="input-group-text"style="background-color: #7750b1;color:#ffffff;"><i class="far fa-money-bill-alt"></i>
+															</span>
+														</div>
+														<input type="text" class="form-control" id="ttl_voucher_detail" name="ttl_voucher_detail" disabled>   
+													</div>
+												</div>
+											</div>
+											<div class="row">
 												<div class="form-group col-6">
 													<label for="">Tanggal Transaksi<span class="text-danger"></span></label><br>
 													<div class="input-group">
@@ -146,27 +171,14 @@
 														<input type="text" class="form-control" id="tgl_transaksi_detail" name="tgl_transaksi_detail" disabled>
 													</div>
 												</div>
-											</div>
-											
-											<div class="row">
 												<div class="form-group col-6">
-													<label for="">Total Transaksi<span class="text-danger"></span></label><br>
+													<label for="">Total Bayar<span class="text-danger"></span></label><br>
 													<div class="input-group">
 														<div class="input-group-prepend">
 															<span class="input-group-text"style="background-color: #7750b1;color:#ffffff;"><i class="far fa-money-bill-alt"></i>
 															</span>
 														</div>
-														<input type="text" class="form-control" id="ttl_transaksi_detail" name="ttl_transaksi_detail" disabled>   
-													</div>
-												</div>
-												<div class="form-group col-6">
-													<label for="">Total Nilai Voucher<span class="text-danger"></span></label><br>
-													<div class="input-group">
-														<div class="input-group-prepend">
-															<span class="input-group-text"style="background-color: #7750b1;color:#ffffff;"><i class="far fa-money-bill-alt"></i>
-															</span>
-														</div>
-														<input type="text" class="form-control" id="ttl_voucher_detail" name="ttl_voucher_detail" disabled>   
+														<input type="text" class="form-control" id="total_detail" name="total_detail" disabled>
 													</div>
 												</div>
 											</div>
@@ -187,7 +199,7 @@
 											<div class="form-group">
 												<label for="">Kode Voucher<span class="text-danger"></span></label><br>
 												<div class="input-group">
-													<select class="js-select2 form-control" id="kode_voucher_detail" name="kode_voucher_detail[]" style="width: 100%;height: 2.375rem;line-height: 2.375rem;background-color: #7750b1;font-size: 1.1rem;" data-placeholder="Pilih kode voucher" multiple disabled>
+													<select class="js-select2 form-control" id="kode_voucher_detail" name="kode_voucher_detail[]" style="width: 100%;height: 2rem;line-height: 2rem;background-color: #7750b1;font-size: 1rem;" data-placeholder="Pilih kode voucher" multiple disabled>
 														<option></option> <!-- Required for data-placeholder attribute to work with Select2 plugin -->
 														@foreach ($vouchers as $v)
 														<option id="{{$v->kode_voucher}}" value="{{$v->kode_voucher}}">{{$v->kode_voucher}} ({{format_ribuan($v->nilai)}})</option>

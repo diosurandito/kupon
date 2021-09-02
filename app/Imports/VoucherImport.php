@@ -5,7 +5,7 @@ namespace App\Imports;
 use App\Voucher;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-// use PhpOffice\PhpSpreadsheet\Shared\Date;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class VoucherImport implements ToModel, WithHeadingRow
 {
@@ -19,6 +19,7 @@ class VoucherImport implements ToModel, WithHeadingRow
         return new Voucher([
             'kode_voucher' => $row['kode_voucher'],
             'nilai' => $row['nilai'],
+            'expired_at' => Date::excelToDateTimeObject($row['expired_at'])
         ]);
     }
 }

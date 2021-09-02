@@ -83,31 +83,31 @@
 <script src="{{ asset('assets/js/plugins/jquery-validation/localization/messages_id.js') }}"></script>
 
 @if(Request::is('home') || Request::is('voucher*'))
-    <script type="text/javascript">
-        var rupiah = document.getElementById("rupiah");
-        rupiah.addEventListener("keyup", function(e) {
+<script type="text/javascript">
+    var rupiah = document.getElementById("rupiah");
+    rupiah.addEventListener("keyup", function(e) {
 
-            rupiah.value = formatRupiah(this.value, "Rp. ");
-        });
-        @if(Request::is('voucher*'))
-        var rupiah2 = document.getElementById("nilai_edit");
-        rupiah2.addEventListener("keyup", function(e) {
+        rupiah.value = formatRupiah(this.value, "Rp. ");
+    });
+    @if(Request::is('voucher*'))
+    var rupiah2 = document.getElementById("nilai_edit");
+    rupiah2.addEventListener("keyup", function(e) {
 
-            rupiah2.value = formatRupiah(this.value, "Rp. ");
-        });
-        @endif
-
-        
-        function formatRupiah(angka, prefix) {
-            var number_string = angka.replace(/[^,\d]/g, "").toString(),
-            split = number_string.split(","),
-            sisa = split[0].length % 3,
-            rupiah = split[0].substr(0, sisa),
-            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+        rupiah2.value = formatRupiah(this.value, "Rp. ");
+    });
+    @endif
 
 
-            if (ribuan) 
-            {
+    function formatRupiah(angka, prefix) {
+        var number_string = angka.replace(/[^,\d]/g, "").toString(),
+        split = number_string.split(","),
+        sisa = split[0].length % 3,
+        rupiah = split[0].substr(0, sisa),
+        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+
+        if (ribuan) 
+        {
             separator = sisa ? "." : "";
             rupiah += separator + ribuan.join(".");}
 
@@ -116,13 +116,13 @@
         }
 
     </script>
-@endif
+    @endif
 
 
-<script>
-    function formatDate (input) 
-    {
-        var datePart = input.match(/\d+/g),
+    <script>
+        function formatDate (input) 
+        {
+            var datePart = input.match(/\d+/g),
         year = datePart[0], // get only two digits
         month = datePart[1], 
         day = datePart[2];
@@ -186,6 +186,7 @@
                 {data: 'kode_voucher', name: 'kode_voucher', sClass: 'text-center'},
                 {data: 'nilai_fh', name: 'nilai_fh', sClass: 'text-center'},
                 {data: 'status', name: 'status', sClass: 'text-center'},
+                {data: 'expired_at_fh', name: 'expired_at_fh', sClass: 'text-center'},
                 {data: 'aksi', name: 'aksi', sClass: 'text-center', orderable: false, searchable: false},
                 ]
 
@@ -276,7 +277,7 @@
                 success:function(data)
                 {
                     setTimeout(function(){
-                    $('#confirm_delete_modal_voucher').modal('hide');
+                        $('#confirm_delete_modal_voucher').modal('hide');
                     }, 250);
                     $('#tb_voucher').DataTable().destroy();
                     if($('#from_date').val() != '' &&  $('#to_date').val() != '')
@@ -300,6 +301,7 @@
         $(document).on('click', '.edit_voucher', function(){
             var id_voucher = $(this).attr('id');
             var nilai_fh = $(this).attr('nilai_fh');
+            var expired_at_fh = $(this).attr('expired_at_fh');
             $.ajax({
                 url :"voucher/edit/"+ id_voucher,
                 dataType:"json",
@@ -307,6 +309,7 @@
                 {
                     $('#kode_voucher_edit').val(data.result.kode_voucher);
                     $('#nilai_edit').val(nilai_fh);
+                    $('#expired_at_edit').val(expired_at_fh);
                     $('#hidden_id_voucher').val(id_voucher);
 
                 }
@@ -344,8 +347,8 @@
                     }, 5000);
                 },
                 error: function (data) {
-                console.log('Error:', data);
-                $('#edit_voucher_savebtn').html('Save Changes');
+                    console.log('Error:', data);
+                    $('#edit_voucher_savebtn').html('Save Changes');
                 },
 
             });
@@ -447,6 +450,7 @@
             var tgl_transaksi = $(this).attr('tgl_transaksi');
             var ttl_voucher = $(this).attr('ttl_voucher');
             var ttl_transaksi = $(this).attr('ttl_transaksi');
+            var total = $(this).attr('total');
             var keterangan = $(this).attr('keterangan');
             
             $.ajax({
@@ -460,6 +464,7 @@
                     $('#tgl_transaksi_detail').val(tgl_transaksi);
                     $('#ttl_transaksi_detail').val(ttl_transaksi);
                     $('#ttl_voucher_detail').val(ttl_voucher);
+                    $('#total_detail').val(total);
                     $('#keterangan_detail').val(keterangan);
                     $('#hidden_id_transaction').val(id_transaction);
                     $('#kode_voucher_detail').val(kdvc_opt_sel);
@@ -472,8 +477,8 @@
         });
 
     //
-        
-    });
+
+});
 </script>
 
 
