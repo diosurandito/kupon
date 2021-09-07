@@ -39,7 +39,12 @@ class VoucherController extends Controller
 			$data->map(function ($data) {
 
 				$data->created_at_fh = date('d-m-Y', strtotime($data->created_at));
-				$data->expired_at_fh = date('d-m-Y', strtotime($data->expired_at));
+				if (!empty($data->expired_at)) {
+					$data->expired_at_fh = date('d-m-Y', strtotime($data->expired_at));
+				} else {
+					$data->expired_at_fh = null;
+				}
+				
 				$data->nilai_fh = 'Rp. '.format_uang($data->nilai);
 				return $data;
 			});
@@ -48,23 +53,29 @@ class VoucherController extends Controller
 			return DataTables::of($data)
 			->addIndexColumn()
 			->addColumn('status', function($data){
-				if($data->vc_flag == 0) {
-					if ($data->expired_at >= Carbon::now()->format('Y-m-d')) {
-						$status = '<button type="button" class="btn btn-sm btn-outline-primary" style="cursor: default;">UNUSED</button>';
-					} else {
-						$status = '<button type="button" class="btn btn-sm btn-outline-dark" style="cursor: default;">UNUSED|EXP</button>';
-					}	
-				}else{
-					if ($data->expired_at >= Carbon::now()->format('Y-m-d')) {
-						$status = '<button type="button" class="btn btn-sm btn-outline-success" style="cursor: default;">USED</button>';
-					} else {
-						$status = '<button type="button" class="btn btn-sm btn-outline-dark" style="cursor: default;">USED|EXP</button>';
+				if (!empty($data->expired_at)) {
+					if($data->vc_flag == 0) {
+						if ($data->expired_at >= Carbon::now()->format('Y-m-d')) {
+							$status = '<button type="button" class="btn btn-sm btn-outline-primary" style="cursor: default;">UNUSED</button>';
+						} else {
+							$status = '<button type="button" class="btn btn-sm btn-outline-dark" style="cursor: default;">UNUSED|EXP</button>';
+						}	
+					}else{
+						if ($data->expired_at >= Carbon::now()->format('Y-m-d')) {
+							$status = '<button type="button" class="btn btn-sm btn-outline-success" style="cursor: default;">USED</button>';
+						} else {
+							$status = '<button type="button" class="btn btn-sm btn-outline-dark" style="cursor: default;">USED|EXP</button>';
+						}
 					}
+				} else {
+					$status = '<button type="button" class="btn btn-sm btn-outline-warning" style="cursor: default;">UNUSABLE</button>';
 				}
+				
+				
 				return $status;
 			})
 			->addColumn('aksi', function($data){
-				if ($data->vc_flag == 0 && $data->expired_at >= Carbon::now()->format('Y-m-d')) {
+				if ($data->vc_flag == 0 && $data->expired_at >= Carbon::now()->format('Y-m-d') || $data->expired_at == null) {
 					$button = '<div class="btn-group">
 					<button type="button" class="edit_voucher btn btn-sm btn-warning" data-toggle="modal" data-target="#edit_modal_voucher" name="edit_data_voucher" id="'.$data->id.'" kode_voucher="'.$data->kode_voucher.'" nilai_fh="'.$data->nilai_fh.'" expired_at_fh="'.$data->expired_at_fh.'" created_at="'.$data->created_at_fh.'" title="Edit Data">
 					<i class="fa fa-pen"></i>

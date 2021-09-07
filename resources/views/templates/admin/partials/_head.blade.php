@@ -120,7 +120,7 @@
             white-space:nowrap;
         }
     </style>
-    @if(Request::is('voucher') || Request::is('customer-llumar') || Request::is('customer-new') || Request::is('customer-ultah/*') || Request::is('follup-customer/*'))
+    @if(Request::is('voucher') || Request::is('transaction'))
         <style type="text/css">
         div.dataTables_scrollHeadInner {
             width: 100%!important;
@@ -130,27 +130,5 @@
         }
         </style>
     @endif
-            
-    <!-- @if(Request::is('customer-llumar'))
-        <style type="text/css">
-        div.dataTables_scrollHeadInner {
-            width: 100%!important;
-        }
-        table.table.table-bordered.table-striped.dataTable.no-footer {
-            width: 100%!important;
-        }
-    </style>
-    @endif
-        
-    @if(Request::is('lokasi-tinter'))
-        <style type="text/css">
-        div.dataTables_scrollHeadInner {
-            width: 100%!important;
-        }
-        table.table.table-bordered.table-striped.dataTable.no-footer {
-            width: 100%!important;
-        }
-    </style>
-    @endif -->
 </head>
 
